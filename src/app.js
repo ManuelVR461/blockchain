@@ -30,9 +30,8 @@ app.set('view engine', 'ejs');
 
 // init dependency injection
 // register modules with respective namespace
-// module then can be accessible via req.locals.namespace within the controller
+// module then can be accessible via res.locals.namespace within the controller
 app.use(DI([
-  {module: modules.mongoose, namespace: 'db'},
   {module: modules.blockchain, namespace: 'blockchain'},
 ], () => {
   // fire app.ready
@@ -89,7 +88,7 @@ app.use((req, res, next) => {
 });
 
 // set up routes
-app.use('/', routes.hello);
+app.use('/blocks', routes.blocks);
 
 // not found handler
 app.use((req, res, next) => {

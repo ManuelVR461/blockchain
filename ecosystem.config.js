@@ -12,7 +12,7 @@ function normalizeMaxInstances(val) {
 
 module.exports = {
   apps: [{
-    name: 'API',
+    name: 'Blockchain',
     // run npm start
     script: 'npm',
     args: 'start',

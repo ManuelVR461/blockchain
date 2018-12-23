@@ -1,4 +1,5 @@
 const Block = require('./Block');
+const {Logger} = require('../../../helpers');
 
 class Blockchain {
     constructor() {
@@ -32,14 +33,14 @@ class Blockchain {
 
     replaceChain(chain) {
         if (chain.length <= this.chain.length) {
-            console.warn('Blockchain replaceChain: chain is not longer than the current chain');
+            Logger.warn('Blockchain replaceChain: chain is not longer than the current chain');
             return;
         } else if (!this.isValidChain(chain)) {
-            console.warn('Blockchain replaceChain: chain is not valid');
+            Logger.warn('Blockchain replaceChain: chain is not valid');
             return;
         }
 
-        console.info('Blockchain replaceChain: replacing blockchain');
+        Logger.info('Blockchain replaceChain: replacing blockchain');
         this.chain = chain;
     }
 }

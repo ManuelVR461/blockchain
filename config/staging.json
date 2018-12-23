@@ -9,7 +9,7 @@
   "papertrail": {
     "host": null,
     "port": null,
-    "program": "api-staging",
+    "program": "blockchain-staging",
     "handleExceptions": true
   },
   "sentry": {

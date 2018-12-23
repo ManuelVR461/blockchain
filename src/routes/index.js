@@ -1,5 +1,5 @@
-const hello = require('./hello');
+const blocks = require('./blocks');
 
 module.exports = {
-  hello,
+  blocks,
 };
