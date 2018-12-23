@@ -1,0 +1,19 @@
+{
+  "logger": {
+    "console": false
+  },
+  "mongoDb": {
+    "debug": false,
+    "uri": null
+  },
+  "papertrail": {
+    "host": null,
+    "port": null,
+    "program": "api-staging",
+    "handleExceptions": true
+  },
+  "sentry": {
+    "dsn": null,
+    "env": "staging"
+  }
+}
