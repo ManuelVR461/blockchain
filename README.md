@@ -33,6 +33,10 @@ Each entry here is an object notation and is provided with short description.
 - `papertrail.program` `String` - Papertrail program. Useful for prefixing log messages with custom namespace.
 - `papertrail.handleExceptions` `Boolean` - For enabling logging of un-handled exceptions via papertrail. (Default: `false`)
 - `www.port` `String/Number` - Port for listening incoming HTTP connection. (Default: `8080`)
+- `blockchain.websocket.port` - 'Port at which it should allows peers to connect (Default: `5001`)'
+- `blockchain.websocket.peers` - 'Peers to which it should connect to sync blockchain'
+- `blockchain.difficulty` - Initial difficulty for the blockchain (number of leading zeros in hash, default: 4)
+- `blockchain.miningRate` - Rate at which block should be included in blockchain (time in milliseconds, default: 1 minute)
 
 ## Features
 

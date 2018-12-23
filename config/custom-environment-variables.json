@@ -2,10 +2,6 @@
   "www": {
     "port": "PORT"
   },
-  "websocket": {
-    "port": "WEBSOCKET_PORT",
-    "peers": "WEBSOCKET_PEERS"
-  },
   "sentry": {
     "dsn": "SENTRY_DSN",
     "env": "SENTRY_ENV"
@@ -14,5 +10,13 @@
     "host": "PAPERTRAIL_HOST",
     "port": "PAPERTRAIL_PORT",
     "program": "PAPERTRAIL_PROGRAM"
+  },
+  "blockchain": {
+    "websocket": {
+      "port": "BLOCKCHAIN_WEBSOCKET_PORT",
+      "peers": "BLOCKCHAIN_PEERS"
+    },
+    "difficulty": "BLOCKCHAIN_INITIAL_DIFFICULTY",
+    "miningRate": "BLOCKCHAIN_MINING_RATE"
   }
 }

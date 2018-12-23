@@ -15,8 +15,12 @@
   "www": {
     "port": 8080
   },
-  "websocket": {
-    "port": 5001,
-    "peers": ""
+  "blockchain": {
+    "websocket": {
+      "port": "5001",
+      "peers": ""
+    },
+    "difficulty": 4,
+    "miningRate": 10000
   }
 }

@@ -11,12 +11,20 @@
       "description": "Realm for loading config entries",
       "required": true
     },
-    "WEBSOCKET_PORT": {
-      "description": "Websocket port",
+    "BLOCKCHAIN_WEBSOCKET_PORT": {
+      "description": "Port at which it should allows peers to connect",
       "required": true
     },
-    "WEBSOCKET_PEERS": {
-      "description": "Websocket peers",
+    "BLOCKCHAIN_PEERS": {
+      "description": "Peers to which it should connect to sync blockchain",
+      "required": true
+    },
+    "BLOCKCHAIN_INITIAL_DIFFICULTY": {
+      "description": "Initial difficulty for the blockchain (number of leading zeros in hash)",
+      "required": true
+    },
+    "BLOCKCHAIN_MINING_RATE": {
+      "description": "Rate at which block should be included in blockchain (time in milliseconds)",
       "required": true
     }
   }

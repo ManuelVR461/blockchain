@@ -3,8 +3,8 @@ const config = require('config');
 const WebSocket = require('ws');
 const {Logger} = require('../../../helpers');
 
-const WEB_SOCKET_PORT = config.get('websocket.port');
-const peers = _.filter(_.split(config.get('websocket.peers'), ','), function (peer) {return !_.isEmpty(peer);});
+const WEB_SOCKET_PORT = config.get('blockchain.websocket.port');
+const peers = _.filter(_.split(config.get('blockchain.websocket.peers'), ','), function (peer) {return !_.isEmpty(peer);});
 
 class P2PServer {
     constructor(blockchain) {
