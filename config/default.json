@@ -8,6 +8,7 @@
             "peers": ""
         },
         "difficulty": 4,
-        "miningRate": 60000
+        "miningRate": 60000,
+        "walletInitialBalance": 500
     }
 }

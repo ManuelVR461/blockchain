@@ -1,23 +1,52 @@
 const _ = require('lodash');
 const config = require('config');
 const WebSocket = require('ws');
-const {Logger} = require('../../../helpers');
+const {Logger} = require('../../helpers');
 
 const WEB_SOCKET_PORT = config.get('blockchain.websocket.port');
 const peers = _.filter(_.split(config.get('blockchain.websocket.peers'), ','), function (peer) {return !_.isEmpty(peer);});
 
+const MESSAGE_TYPES = {
+    BLOCKCHAIN: 'blockchain',
+    TRANSACTION: 'transaction'
+};
+
 class P2PServer {
-    constructor(blockchain) {
+    constructor(blockchain, transactionPool) {
         this.blockchain = blockchain;
+        this.transactionPool = transactionPool;
         this.sockets = [];
         this.server = null;
-        this.blockchain.addEventListener(this);
     }
 
     sendChain(socket) {
-        socket.send(JSON.stringify(this.blockchain.chain));
+        socket.send(JSON.stringify({
+            type: MESSAGE_TYPES.BLOCKCHAIN,
+            data: this.blockchain.chain
+        }));
     }
 
+    syncChains() {
+        const THIS = this;
+        _.forEach(THIS.sockets, (socket) => {
+            THIS.sendChain(socket);
+        });
+    }
+
+    broadcastTransaction(socket, transaction) {
+        socket.send(JSON.stringify({
+            type: MESSAGE_TYPES.TRANSACTION,
+            data: transaction
+        }));
+    }
+
+    syncTransaction(transaction) {
+        const THIS = this;
+        _.forEach(THIS.sockets, (socket) => {
+            THIS.broadcastTransaction(socket, transaction);
+        });
+    }
+    
     connectSocket(socket) {
         Logger.info(`P2PServer connectSocket: Socket connected`);
         this.sockets.push(socket);
@@ -45,16 +74,20 @@ class P2PServer {
         socket.on('message', message => {
             const data = JSON.parse(message);
             Logger.info(`P2PServer messageHandler: `, data);
-            THIS.blockchain.replaceChain(data);
+            if (data.type === MESSAGE_TYPES.TRANSACTION) {
+                THIS.transactionPool.updateOrAddTransaction(data.data);
+            } else if(data.type = MESSAGE_TYPES.BLOCKCHAIN) {
+                THIS.blockchain.replaceChain(data.data);
+            }
         });
     }
-
-    onBlockAdded() {
+    
+    onTransactionAddOrUpdate(transaction) {
         const THIS = this;
         _.forEach(THIS.sockets, (socket) => {
-            THIS.sendChain(socket);
-        })
-    };
+            THIS.broadcastTransaction(socket, transaction);
+        });
+    }
 }
 
 module.exports = P2PServer;

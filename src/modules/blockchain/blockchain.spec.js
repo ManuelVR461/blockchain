@@ -1,7 +1,7 @@
 const assert = require('assert');
 
-const Blockchain = require('./Blockchain');
-const Block = require('./Block');
+const Blockchain = require('./blockchain');
+const Block = require('./block');
 
 describe('Blockchain', () => {
     let blockchain, anotherBlockchain;

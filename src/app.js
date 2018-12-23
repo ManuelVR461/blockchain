@@ -83,6 +83,8 @@ app.use((req, res, next) => {
 
 // set up routes
 app.use('/blocks', routes.blocks);
+app.use('/transactions', routes.transactions);
+app.use('/wallet', routes.wallet);
 
 // not found handler
 app.use((req, res, next) => {

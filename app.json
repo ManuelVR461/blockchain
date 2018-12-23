@@ -26,6 +26,10 @@
     "BLOCKCHAIN_MINING_RATE": {
       "description": "Rate at which block should be included in blockchain (time in milliseconds)",
       "required": true
+    },
+    "BLOCKCHAIN_WALLET_INITIAL_BALANCE": {
+      "description": "Default balance with a wallet",
+      "required": true
     }
   }
 }

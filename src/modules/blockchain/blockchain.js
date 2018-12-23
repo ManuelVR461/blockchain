@@ -1,24 +1,16 @@
 const _ = require('lodash');
-const Block = require('./Block');
-const {Logger} = require('../../../helpers');
+const Block = require('./block');
+const {Logger} = require('../../helpers');
 
 class Blockchain {
     constructor() {
         this.chain = [Block.genesis()];
-        this.eventListeners = [];
     }
 
     addBlock(data) {
         const block = Block.mineBlock(this.chain[this.chain.length - 1], data);
         this.chain.push(block);
         Logger.info('Blockchain addBlock: Block added; ' + block.toString());
-
-        _.forEach(this.eventListeners, (eventListener) => {
-            if (_.isFunction(eventListener.onBlockAdded)) {
-                eventListener.onBlockAdded(block);
-            }
-        });
-        
         return block;
     }
     
@@ -51,10 +43,6 @@ class Blockchain {
 
         Logger.info('Blockchain replaceChain: replacing blockchain');
         this.chain = chain;
-    }
-
-    addEventListener(obj) {
-        this.eventListeners.push(obj);
     }
 }
 

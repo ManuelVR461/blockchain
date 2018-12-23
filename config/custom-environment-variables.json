@@ -17,6 +17,7 @@
       "peers": "BLOCKCHAIN_PEERS"
     },
     "difficulty": "BLOCKCHAIN_INITIAL_DIFFICULTY",
-    "miningRate": "BLOCKCHAIN_MINING_RATE"
+    "miningRate": "BLOCKCHAIN_MINING_RATE",
+    "walletInitialBalance": "BLOCKCHAIN_WALLET_INITIAL_BALANCE"
   }
 }

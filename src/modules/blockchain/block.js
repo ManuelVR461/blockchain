@@ -1,4 +1,4 @@
-const SHA256 = require('crypto-js/sha256');
+const {ChainUtils} = require('../../helpers');
 
 const config = require('config');
 const DIFFICULTY = parseInt(config.get('blockchain.difficulty'));
@@ -60,7 +60,13 @@ class Block {
     }
 
     static hash(timestamp, lastHash, data, nonce, difficulty) {
-        return SHA256(`${timestamp}${lastHash}${data}${nonce}${difficulty}`).toString();
+        return ChainUtils.hash({
+            timestamp: timestamp,
+            lastHash: lastHash,
+            data: data,
+            nonce: nonce,
+            difficulty: difficulty
+        });
     }
 
     static blockHash(block) {

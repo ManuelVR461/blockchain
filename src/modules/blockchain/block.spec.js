@@ -1,5 +1,5 @@
 const assert = require('assert');
-const Block = require('./Block');
+const Block = require('./block');
 
 const config = require('config');
 const MINE_RATE = parseInt(config.get('blockchain.miningRate'));
