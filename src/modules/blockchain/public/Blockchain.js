@@ -9,7 +9,7 @@ class Blockchain {
     addBlock(data) {
         const block = Block.mineBlock(this.chain[this.chain.length - 1], data);
         this.chain.push(block);
-
+        Logger.info('Blockchain addBlock: Block added; ' + block.toString());
         return block;
     }
     
