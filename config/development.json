@@ -2,10 +2,6 @@
   "logger": {
     "console": true
   },
-  "mongoDb": {
-    "debug": true,
-    "uri": "mongodb://localhost:27017/blockchain-development"
-  },
   "papertrail": {
     "host": "",
     "port": "",
@@ -18,5 +14,9 @@
   },
   "www": {
     "port": 8080
+  },
+  "websocket": {
+    "port": 5001,
+    "peers": ""
   }
 }

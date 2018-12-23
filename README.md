@@ -26,8 +26,6 @@ In the `config` directory:
 
 Each entry here is an object notation and is provided with short description.
 
-- `mongoDb.uri` `String` - URI connection string for MongoDb. If not provided, mongoose will not be configured.
-- `mongoDb.debug` `Boolean` - Set this to `true` for logging mongodb requests via configured logger.
 - `sentry.dsn` `String` - Sentry DSN for error reporting. If not provided, sentry will not be configured.
 - `sentry.env` `String` - Environment for Sentry. [More Info](https://docs.sentry.io/learn/environments/?platform=node)
 - `papertrail.host` `String` - If provided, logging via [Papertrail](https://papertrail.com) will be enabled.
@@ -40,7 +38,6 @@ Each entry here is an object notation and is provided with short description.
 
 - Logging via papertrail.
 - Error reporting via sentry.
-- Database connection via mongoose.
 - Heroku deployment ready (see `app.json` and `Procfile`)
 - PM2 process manager ready (`ecosystem.config.js`)
 - Internationalization support.

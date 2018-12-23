@@ -11,8 +11,6 @@ const core = require('./core');
 const routes = require('./routes');
 const modules = require('./modules');
 const {Logger, Error} = require('./helpers');
-// from modules
-const {DbUtils} = modules.mongoose;
 
 // init i18n
 i18n.configure({
@@ -23,10 +21,6 @@ i18n.configure({
 
 // init app
 const app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
 // init dependency injection
 // register modules with respective namespace
@@ -47,7 +41,7 @@ app.use(expressWinston.logger({
   winstonInstance: Logger,
   // no pre-build meta
   meta: false,
-  msg: 'API HTTP REQUEST {{req.ip}} - {{res.statusCode}} - {{req.method}} - {{res.responseTime}}ms - {{req.url}} - {{req.headers[\'user-agent\']}}',
+  msg: 'HTTP REQUEST {{req.ip}} - {{res.statusCode}} - {{req.method}} - {{res.responseTime}}ms - {{req.url}} - {{req.headers[\'user-agent\']}}',
   // use the default express/morgan request formatting
   // enabling this will override any msg if true
   expressFormat: false,
@@ -103,13 +97,6 @@ app.use((err, req, res, next) => {
     res.send({
       error: err.message || res.__(`DEFAULT_ERRORS.${err.locale_tag}`),
       error_code: err.api_code,
-    });
-  } else if (DbUtils.checkConnectionErr(err)) {
-    // mongoose connection error
-    res.status(503);
-    res.send({
-      error: res.__('DEFAULT_ERRORS.TEMPORARILY_UNAVAILABLE'),
-      error_code: 'temporarily_unavailable',
     });
   } else {
     // un-handled error
