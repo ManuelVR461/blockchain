@@ -55,7 +55,7 @@ class Wallet {
 
         let startTime = 0;
         let balance = this.balance;
-
+        
         let walletTransactions = _.filter(transactions, (transaction) => {return transaction.input.address === walletAddress;});
         if (walletTransactions.length > 0) {
             const mostRecentTransaction = walletTransactions.reduce((prev, next) => prev.input.timestamp > next.input.timestamp ? prev : next);
@@ -63,11 +63,13 @@ class Wallet {
             startTime = mostRecentTransaction.input.timestamp;
         }
 
+        console.log(walletTransactions)
+
         _.forEach(transactions, (transaction) => {
             if (transaction.input.timestamp > startTime) {
                 _.forEach(transaction.outputs, (output) => {
                     if (output.address === walletAddress) {
-                        balance += output.balance;
+                        balance += output.amount;
                     }
                 });
             }
