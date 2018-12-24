@@ -4,6 +4,5 @@ const controller = require('../controllers/blocks');
 const router = express.Router({});
 
 router.get('/', controller.getAllBlocks);
-router.post('/', controller.addBlock);
 
 module.exports = router;

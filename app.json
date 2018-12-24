@@ -30,6 +30,10 @@
     "BLOCKCHAIN_WALLET_INITIAL_BALANCE": {
       "description": "Default balance with a wallet",
       "required": true
+    },
+    "BLOCKCHAIN_MINING_REWARD": {
+      "description": "Reward associated with mining a block",
+      "required": true
     }
   }
 }

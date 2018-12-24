@@ -1,7 +1,7 @@
 const config = require('config');
 const {Logger, ChainUtils} = require('../../../helpers');
 const Transaction = require('./transaction');
-
+const _ = require('lodash');
 const INITIAL_BALANCE = parseFloat(config.get('blockchain.walletInitialBalance'));
 
 class Wallet {
@@ -22,7 +22,10 @@ class Wallet {
         return this.keyPair.sign(dataHash);
     }
 
-    createTransaction(recipient, amount, transactionPool) {
+    createTransaction(recipient, amount, blockchain, transactionPool) {
+
+        this.balance = this.calculateBalance(blockchain);
+
         if (this.balance < amount) {
             Logger.warn('Wallet createTransaction: Amount exceeds wallet balance');
             return;
@@ -37,6 +40,46 @@ class Wallet {
 
         transactionPool.updateOrAddTransaction(transaction);
         return transaction;
+    }
+
+    calculateBalance(blockchain) {
+        
+        const walletAddress = this.publicKey;
+
+        let transactions = [];
+        _.forEach(blockchain.chain, (block) => {
+            _.forEach(block.data, (transaction) => {
+                transactions.push(transaction);
+            });
+        });
+
+        let startTime = 0;
+        let balance = this.balance;
+
+        let walletTransactions = _.filter(transactions, (transaction) => {return transaction.input.address === walletAddress;});
+        if (walletTransactions.length > 0) {
+            const mostRecentTransaction = walletTransactions.reduce((prev, next) => prev.input.timestamp > next.input.timestamp ? prev : next);
+            balance = _.find(mostRecentTransaction.outputs, (output) => {return output.address === walletAddress;}).amount;
+            startTime = mostRecentTransaction.input.timestamp;
+        }
+
+        _.forEach(transactions, (transaction) => {
+            if (transaction.input.timestamp > startTime) {
+                _.forEach(transaction.outputs, (output) => {
+                    if (output.address === walletAddress) {
+                        balance += output.balance;
+                    }
+                });
+            }
+        });
+        
+        return balance;
+    }
+
+    static blockchainWallet() {
+        const wallet = new this();
+        wallet.address = 'blockchain-wallet';
+        return wallet;
     }
 }
 

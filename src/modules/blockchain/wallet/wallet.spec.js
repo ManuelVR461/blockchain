@@ -3,11 +3,13 @@ const TransactionPool = require('./transaction-pool');
 const Wallet = require('./wallet');
 const Transaction = require('./transaction');
 const _ = require('lodash');
+const Blockchain = require('../blockchain');
 
 describe('Wallet', () => {
 
-    let transactionPool, senderWallet, recipientWallet, amount, transaction, anotherRecipientWallet, anotherAmount, anotherSenderWallet;
+    let blockchain, transactionPool, senderWallet, recipientWallet, amount, transaction, anotherRecipientWallet, anotherAmount, anotherSenderWallet;
     beforeEach(() => {
+        blockchain = new Blockchain();
         transactionPool = new TransactionPool();
 
         senderWallet = new Wallet();
@@ -25,7 +27,7 @@ describe('Wallet', () => {
         let existingTransaction = transactionPool.findTransactionByAddress(anotherSenderWallet.publicKey);
         assert.equal(existingTransaction, undefined);
 
-        anotherSenderWallet.createTransaction(anotherRecipientWallet.publicKey, anotherAmount, transactionPool);
+        anotherSenderWallet.createTransaction(anotherRecipientWallet.publicKey, anotherAmount, blockchain, transactionPool);
         existingTransaction = transactionPool.findTransactionByAddress(anotherSenderWallet.publicKey);
 
         assert.notEqual(existingTransaction, undefined);
@@ -35,7 +37,7 @@ describe('Wallet', () => {
         let existingTransaction = transactionPool.findTransactionByAddress(senderWallet.publicKey);
         assert.notEqual(existingTransaction, undefined);
 
-        senderWallet.createTransaction(anotherRecipientWallet.publicKey, anotherAmount, transactionPool);
+        senderWallet.createTransaction(anotherRecipientWallet.publicKey, anotherAmount, blockchain, transactionPool);
         existingTransaction = transactionPool.findTransactionByAddress(senderWallet.publicKey);
 
         const senderOutput = _.find(existingTransaction.outputs, (output) => {return output.address === senderWallet.publicKey;});

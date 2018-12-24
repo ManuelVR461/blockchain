@@ -37,6 +37,7 @@ Each entry here is an object notation and is provided with short description.
 - `blockchain.websocket.peers` - 'Peers to which it should connect to sync blockchain'
 - `blockchain.difficulty` - Initial difficulty for the blockchain (number of leading zeros in hash, default: 4)
 - `blockchain.miningRate` - Rate at which block should be included in blockchain (time in milliseconds, default: 1 minute)
+- `blockchain.miningReward` - Reword associated with mining a block
 
 ## Features
 

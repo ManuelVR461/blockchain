@@ -8,7 +8,8 @@ const peers = _.filter(_.split(config.get('blockchain.websocket.peers'), ','), f
 
 const MESSAGE_TYPES = {
     BLOCKCHAIN: 'blockchain',
-    TRANSACTION: 'transaction'
+    TRANSACTION: 'transaction',
+    CLEAR_TRANSACTIONS: 'clear_transactions'
 };
 
 class P2PServer {
@@ -33,17 +34,22 @@ class P2PServer {
         });
     }
 
-    broadcastTransaction(socket, transaction) {
-        socket.send(JSON.stringify({
-            type: MESSAGE_TYPES.TRANSACTION,
-            data: transaction
-        }));
-    }
-
     syncTransaction(transaction) {
         const THIS = this;
         _.forEach(THIS.sockets, (socket) => {
-            THIS.broadcastTransaction(socket, transaction);
+            socket.send(JSON.stringify({
+                type: MESSAGE_TYPES.TRANSACTION,
+                data: transaction
+            }));
+        });
+    }
+
+    broadcastClearTransactions() {
+        const THIS = this;
+        _.forEach(THIS.sockets, (socket) => {
+            socket.send(JSON.stringify({
+                type: MESSAGE_TYPES.CLEAR_TRANSACTIONS
+            }));
         });
     }
     
@@ -76,8 +82,10 @@ class P2PServer {
             Logger.info(`P2PServer messageHandler: `, data);
             if (data.type === MESSAGE_TYPES.TRANSACTION) {
                 THIS.transactionPool.updateOrAddTransaction(data.data);
-            } else if(data.type = MESSAGE_TYPES.BLOCKCHAIN) {
+            } else if(data.type === MESSAGE_TYPES.BLOCKCHAIN) {
                 THIS.blockchain.replaceChain(data.data);
+            } else if(data.type === MESSAGE_TYPES.CLEAR_TRANSACTIONS) {
+                THIS.transactionPool.clear();
             }
         });
     }
